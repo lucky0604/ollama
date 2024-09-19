@@ -1403,6 +1403,14 @@ func NewCLI() *cobra.Command {
 		RunE:    DeleteHandler,
 	}
 
+	embeddingCmd := &cobra.Command{
+		Use:     "embedding MODEL [MODEL...]",
+		Short:   "embedding model",
+		Args:    cobra.MinimumNArgs(1),
+		PreRunE: checkServerHeartbeat,
+		RunE:    DeleteHandler,
+	}
+
 	envVars := envconfig.AsMap()
 
 	envs := []envconfig.EnvVar{envVars["OLLAMA_HOST"]}
@@ -1419,6 +1427,7 @@ func NewCLI() *cobra.Command {
 		copyCmd,
 		deleteCmd,
 		serveCmd,
+		embeddingCmd,
 	} {
 		switch cmd {
 		case runCmd:
@@ -1458,6 +1467,7 @@ func NewCLI() *cobra.Command {
 		psCmd,
 		copyCmd,
 		deleteCmd,
+		embeddingCmd,
 	)
 
 	return rootCmd
